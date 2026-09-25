@@ -1,37 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rwanda Farm Market</title>
-<style>
-body{font-family:Arial,sans-serif;margin:0;background:#f4f7f2;color:#222}header{background:#176b3a;color:#fff;padding:24px;text-align:center}.container{max-width:1000px;margin:auto;padding:20px}.box,.card{background:#fff;border-radius:12px;box-shadow:0 2px 8px #0002}.box{padding:20px;margin-bottom:20px}input,select,textarea,button{width:100%;padding:12px;margin:7px 0;box-sizing:border-box;border:1px solid #ccc;border-radius:7px}button{background:#176b3a;color:#fff;border:0;font-weight:bold;cursor:pointer}.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}.card{overflow:hidden}.card img{width:100%;height:190px;object-fit:cover}.content{padding:15px}.price{color:#176b3a;font-size:20px;font-weight:bold}.actions{display:flex;gap:8px}.actions button{flex:1}.whatsapp{background:#168b45}.delete{background:#b52b2b}.small{color:#666;font-size:14px}label{font-weight:bold}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rwanda Livestock Market</title>
+  <meta name="description" content="Buy and sell livestock and agricultural products in Rwanda.">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Arial,Helvetica,sans-serif;background:#f5f7f5;color:#1f2937;line-height:1.6}
+    header{background:#176b3a;color:white;padding:22px 6%;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+    .brand{font-size:24px;font-weight:800}
+    nav a{color:white;text-decoration:none;margin-left:18px;font-weight:600}
+    .hero{background:linear-gradient(135deg,#176b3a,#2e8b57);color:white;text-align:center;padding:70px 20px}
+    .hero h1{font-size:clamp(32px,6vw,52px);margin-bottom:12px}
+    .hero p{max-width:700px;margin:0 auto 25px;font-size:18px}
+    .btn{display:inline-block;background:#25D366;color:white;padding:13px 22px;border-radius:8px;text-decoration:none;font-weight:700;border:none;cursor:pointer}
+    .btn.dark{background:#176b3a}
+    .container{max-width:1150px;margin:auto;padding:45px 20px}
+    .section-title{text-align:center;margin-bottom:28px}
+    .section-title h2{font-size:32px;color:#176b3a}
+    .section-title p{color:#667085;margin-top:5px}
+    .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
+    .card{background:white;border-radius:14px;overflow:hidden;box-shadow:0 5px 20px rgba(0,0,0,.08);transition:.2s}
+    .card:hover{transform:translateY(-4px)}
+    .card img{width:100%;height:210px;object-fit:cover;background:#e8eee9}
+    .card-body{padding:18px}
+    .card h3{font-size:22px;color:#176b3a;margin-bottom:7px}
+    .price{font-size:19px;font-weight:800;margin:8px 0;color:#222}
+    .card p{color:#667085;margin-bottom:15px}
+    .contact{background:white;text-align:center;border-radius:14px;padding:35px;box-shadow:0 5px 20px rgba(0,0,0,.07)}
+    .contact h2{color:#176b3a;margin-bottom:10px}
+    footer{background:#123d27;color:white;text-align:center;padding:25px;margin-top:20px}
+    .small{font-size:13px;color:#d5e5da;margin-top:7px}
+    @media(max-width:650px){header{justify-content:center}nav a{margin:0 7px}.hero{padding:55px 18px}}
+  </style>
 </head>
+
 <body>
-<header><h1>🌾 Rwanda Farm Market</h1><p>Buy and sell agricultural and livestock products in Rwanda</p></header>
-<div class="container">
-<div class="box"><h2>🔎 Find Farm Products</h2><input id="search" placeholder="Search products, category or location..." oninput="showProducts()"></div>
-<div class="box"><h2>➕ Add Your Product</h2>
-<form id="form">
-<label>Product name</label><input id="name" required placeholder="Example: Pekin Ducks">
-<label>Category</label><select id="category" required><option value="">Select category</option><option>Livestock</option><option>Poultry</option><option>Rabbits</option><option>Crops</option><option>Vegetables</option><option>Fruits</option><option>Animal feed</option><option>Other</option></select>
-<label>Price (RWF)</label><input id="price" type="number" required placeholder="Example: 15000">
-<label>Location</label><input id="location" required placeholder="Example: Ruhango, Rwanda">
-<label>Phone / WhatsApp</label><input id="phone" required placeholder="078xxxxxxx">
-<label>Description</label><textarea id="description" rows="3" placeholder="Describe your product..."></textarea>
-<label>Product photo</label><input id="photo" type="file" accept="image/*">
-<button type="submit">Publish Product</button></form><p id="message"></p></div>
-<h2>🛒 Available Products</h2><div id="products" class="products"></div>
-</div>
-<script>
-let products=JSON.parse(localStorage.getItem('rwandaFarmProducts')||'[]');
-function save(){localStorage.setItem('rwandaFarmProducts',JSON.stringify(products))}
-function showProducts(){const q=document.getElementById('search').value.toLowerCase();const area=document.getElementById('products');area.innerHTML='';const list=products.filter(p=>(p.name+' '+p.category+' '+p.location).toLowerCase().includes(q));if(!list.length){area.innerHTML='<div class="box">No products found. Be the first seller!</div>';return}list.forEach(p=>{const c=document.createElement('div');c.className='card';c.innerHTML=(p.photo?'<img src="'+p.photo+'" alt="product">':'')+'<div class="content"><h3>'+p.name+'</h3><p class="price">'+Number(p.price).toLocaleString()+' RWF</p><p><b>Category:</b> '+p.category+'</p><p><b>Location:</b> '+p.location+'</p><p>'+p.description+'</p><p class="small">Seller: '+p.phone+'</p><div class="actions"><button class="whatsapp" onclick="wa(\''+p.phone+'\')">WhatsApp</button><button onclick="callSeller(\''+p.phone+'\')">Call</button></div><button class="delete" onclick="del('+p.id+')">Delete</button></div>';area.appendChild(c)})}
-function wa(phone){let n=phone.replace(/\D/g,'');if(n.startsWith('0'))n='250'+n.slice(1);window.open('https://wa.me/'+n,'_blank')}
-function callSeller(phone){window.location.href='tel:'+phone}
-function del(id){if(confirm('Delete this product?')){products=products.filter(p=>p.id!==id);save();showProducts()}}
-document.getElementById('form').addEventListener('submit',function(e){e.preventDefault();const f=document.getElementById('photo').files[0];const add=photo=>{products.unshift({id:Date.now(),name:document.getElementById('name').value,category:document.getElementById('category').value,price:document.getElementById('price').value,location:document.getElementById('location').value,phone:document.getElementById('phone').value,description:document.getElementById('description').value,photo:photo});save();this.reset();document.getElementById('message').textContent='Product published successfully!';showProducts()};if(f){const r=new FileReader();r.onload=()=>add(r.result);r.readAsDataURL(f)}else add('')});showProducts();
-</script>
+  <header>
+    <div class="brand">🇷🇼 Rwanda Livestock Market</div>
+    <nav>
+      <a href="#products">Products</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Quality Livestock & Farm Products</h1>
+    <p>Find pigs, chickens, ducks, turkeys and eggs from local farmers in Rwanda.</p>
+    <a class="btn" href="#products">View Products</a>
+  </section>
+
+  <main class="container">
+    <div class="section-title" id="products">
+      <h2>Our Products</h2>
+      <p>Choose a product and contact the seller directly on WhatsApp.</p>
+    </div>
+
+    <div class="products">
+
+      <article class="card">
+        <img src="images/pigs.jpg" alt="Pigs" onerror="this.src='https://placehold.co/800x500?text=Pigs'">
+        <div class="card-body">
+          <h3>🐖 Pigs</h3>
+          <p>Healthy pigs available for farmers and livestock buyers.</p>
+          <div class="price">Price: Contact us</div>
+          <a class="btn dark whatsapp" href="#">WhatsApp Seller</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="images/chickens.jpg" alt="Chickens" onerror="this.src='https://placehold.co/800x500?text=Chickens'">
+        <div class="card-body">
+          <h3>🐔 Chickens</h3>
+          <p>Chickens available for farming, breeding and meat production.</p>
+          <div class="price">Price: Contact us</div>
+          <a class="btn dark whatsapp" href="#">WhatsApp Seller</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="images/ducks.jpg" alt="Ducks" onerror="this.src='https://placehold.co/800x500?text=Ducks'">
+        <div class="card-body">
+          <h3>🦆 Ducks</h3>
+          <p>Healthy ducks available for breeding and production.</p>
+          <div class="price">Price: Contact us</div>
+          <a class="btn dark whatsapp" href="#">WhatsApp Seller</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="images/turkeys.jpg" alt="Turkeys" onerror="this.src='https://placehold.co/800x500?text=Turkeys'">
+        <div class="card-body">
+          <h3>🦃 Turkeys</h3>
+          <p>Turkeys available for farmers and livestock buyers.</p>
+          <div class="price">Price: Contact us</div>
+          <a class="btn dark whatsapp" href="#">WhatsApp Seller</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="images/eggs.jpg" alt="Eggs" onerror="this.src='https://placehold.co/800x500?text=Eggs'">
+        <div class="card-body">
+          <h3>🥚 Eggs</h3>
+          <p>Fresh farm eggs available for customers and businesses.</p>
+          <div class="price">Price: Contact us</div>
+          <a class="btn dark whatsapp" href="#">WhatsApp Seller</a>
+        </div>
+      </article>
+
+    </div>
+
+    <section class="contact" id="contact" style="margin-top:45px">
+      <h2>Contact the Seller</h2>
+      <p>For prices, availability, location and delivery, contact us on WhatsApp.</p>
+      <br>
+      <a class="btn whatsapp" href="#">💬 Contact on WhatsApp</a>
+    </section>
+  </main>
+
+  <footer>
+    <strong>Rwanda Livestock Market</strong>
+    <div class="small">Connecting local farmers and buyers in Rwanda.</div>
+  </footer>
+
+  <script>
+    // IMPORTANT: Replace this number with your WhatsApp number.
+    // Use country code, without + or spaces.
+    const whatsappNumber = "2507XXXXXXXX";
+
+    const message = encodeURIComponent(
+      "Hello, I am interested in your livestock/farm products. Please send me the available products, prices and location."
+    );
+
+    document.querySelectorAll(".whatsapp").forEach(button => {
+      button.href = `https://wa.me/${whatsappNumber}?text=${message}`;
+    });
+  </script>
 </body>
 </html>
